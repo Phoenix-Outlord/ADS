@@ -1,0 +1,112 @@
+import numpy as np
+import pandas as pd
+import seaborn as sns
+from scipy import stats
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import LabelEncoder
+
+tip = pd.read_csv('tips-expt4.csv')
+
+tip.head()
+
+tip.isnull().sum()
+
+##1.FREQUNCY DISTRIBITION
+
+tip['sex'].value_counts()
+
+sns.countplot(tip,x='sex')
+
+sns.countplot(tip,x='sex',hue='smoker')
+
+sns.countplot(tip,x='day',color='grey')
+
+sns.catplot(tip,x='day',hue='sex',kind='count',color='pink')
+
+
+
+#2.Numerical Value
+sns.distplot(tip['tip'])
+
+sns.distplot(tip.tip,kde=False)
+
+plt.figure(figsize=(15,3))
+sns.boxplot(x='total_bill',data= tip,color='g')
+
+
+plt.figure(figsize=(15,3))
+sns.boxplot(x='tip',data= tip)
+
+tip
+
+bill_tips = pd.DataFrame(tip,columns=['total_bill','tip','size'])
+
+print("IQR FOR TOTAL BILL : ",stats.iqr(bill_tips['total_bill']))
+print("IQR FOR TIPS : ",stats.iqr(bill_tips['tip']))
+
+
+sns.relplot(x='total_bill',y='tip',data=tip,col='time',hue='smoker',size='size')
+
+sns.scatterplot(data=tip,x='total_bill',y='tip',hue='sex')
+
+sns.lmplot(x='total_bill',y='tip',data=tip,col='time',hue='smoker')
+
+sns.catplot(x='day',y='tip',data=tip,kind='swarm',palette='muted')
+
+sns.catplot(x='time',y='tip',data=tip,height=6,kind='bar',palette='muted')
+
+sns.catplot(x='day',y='tip',data=tip,kind='violin',palette='muted')
+
+sns.pairplot(data=tip,hue='sex')
+
+corr_matrix = bill_tips.corr()
+ax = sns.heatmap(data=corr_matrix,annot=True,vmax=1,vmin=-1,center=0)
+bottom,top = ax.get_ylim()
+ax.set_ylim(bottom+0.5,top-0.5)
+
+LE = LabelEncoder()
+tip['sex'] = LE.fit_transform(tip['sex'])
+tip['smoker'] = LE.fit_transform(tip['smoker'])
+tip['day'] = LE.fit_transform(tip['day'])
+tip['time'] = LE.fit_transform(tip['time'])
+tip.head()
+
+corr_matrix = tip.corr()
+ax = sns.heatmap(data=corr_matrix,annot=True,vmax=1,vmin=-1,center=0)
+bottom,top = ax.get_ylim()
+ax.set_ylim(bottom+0.5,top-0.5)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

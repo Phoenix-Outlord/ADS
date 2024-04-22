@@ -1,0 +1,62 @@
+import pandas as pd
+import numpy as np
+import seaborn as sns
+from scipy import stats
+
+data = pd.read_csv('bmi.csv')
+
+data.head()
+
+data.drop(columns='Gender').mean()
+
+data.drop(columns='Gender',axis=1).median()
+
+data.mode()
+
+data.drop(columns='Gender',axis=1).var()
+
+data.drop(columns='Gender',axis=1).std()
+
+max = data.drop(columns='Gender',axis=1).max()
+
+min = data.drop(columns='Gender',axis=1).min()
+
+range = max-min
+
+range
+
+
+Q1 = data.drop(columns='Gender',axis=1).quantile(0.25)
+Q3 = data.drop(columns='Gender',axis=1).quantile(0.75)
+IQR = Q3-Q1
+
+
+IQR
+
+sns.catplot(data=data,y='Age',kind='box')
+
+sns.catplot(data=data,x='Gender',y='Age',kind='box')
+
+
+data['Age'].kurtosis()
+
+data['Age'].skew()
+
+
+mean = data['Age'].mean()
+std_dev = data['Age'].std()
+std_dev
+
+DQ = std_dev/mean
+DQ
+
+
+Hmean = stats.hmean(data['Age'])
+
+
+Risk = Hmean/mean
+Risk
+
+z = stats.zscore(data['Age'])
+z
+

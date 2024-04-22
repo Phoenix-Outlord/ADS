@@ -1,0 +1,50 @@
+import pandas as  pd
+import numpy as np
+import matplotlib.pyplot as plt
+from statsmodels.tsa.seasonal import seasonal_decompose
+
+airline = pd.read_csv('airlinepassenger.csv')
+
+airline.head()
+
+airline.isnull().sum()
+
+airline.plot(x='Month',y='Passengers',figsize=(12,6))
+plt.xlabel('Months')
+plt.ylabel('Passengers')
+
+
+airline['Month'] = pd.to_datetime(airline['Month'])
+airline = airline.set_index('Month')
+result = seasonal_decompose(airline,model='multiplicative')
+result.plot()
+plt.show()
+
+
+
+#Create Dummy Data
+product = {
+            'Month':[1,2,3,4,5,6,7,8,9,10,11,12],
+            'Passenger':[290,260,288,300,310,303,329,340,316,330,308,310]
+          }
+
+product_df = pd.DataFrame(product)
+
+product_df.head()
+
+product_df['SMA_3'] = product_df['Passenger'].rolling(window=3).mean()
+product_df['SMA_4'] = product_df['Passenger'].rolling(window=4).mean()
+
+
+product_df.head()
+
+ fig,ax= plt.subplots(figsize=(12,6))
+ plt.grid(True)
+ plt.plot(product_df['Passenger'],label='Passenger_Demand')
+ plt.plot(product_df['SMA_3'],label='SMA_03_Months')
+ plt.plot(product_df['SMA_4'],label='SMA_04_Months')
+ plt.legend(loc=4)
+
+
+
+
